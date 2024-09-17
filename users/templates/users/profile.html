@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+    {% block content %}
+    <h2>Account Info</h2>
+    <ul>
+        <li>Username: {{ user.username }}</li>
+        <li>Email: {{ user.email }}</li>
+    </ul>
+
+    <h2>My Profile</h2>
+    <ul>
+        <li>First Name: {{ user.first_name }}</li>
+        <li>Last Name: {{ user.last_name }}</li>
+        {% if user_profile.driver %}
+        <p>Here's your vehicle info:</p>
+        <li>Vehicle Type: {{ user_profile.vehicle }}</li>
+        <li>Plate Number: {{ user_profile.plate }}</li>
+        <li>Passenget Capacity: {{ user_profile.capacity }}</li>
+        {% if user_profile.special %}
+        <li>Special Info: {{ user_profile.special}}</li>
+        {% endif %}
+        {% else %}
+        <p>You are not a driver yet.</p>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        {% if not user_profile.driver %}
+        <a href="{% url 'users:regisdriver' user.id %}">Register for driver!</a>
+        {% else %}
+        <a href="{% url 'users:editinfo' user.id %}">Edit Your Driver info</a>
+        {% endif %}
+        
+        <a href="{% url 'users:changepassword' user.id %}">Change Password</a>
+        <a href="{% url 'users:display' user.id %}">Home</a>
+        <a href="{% url 'users:logout' %}">Log out</a>
+        {% endif %}
+    </ul>
+
+    {% endblock %}
+</body>
+</html>
